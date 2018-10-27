@@ -1,5 +1,7 @@
 package com_02_Linked_list;
 
+import java.util.Stack;
+
 public class Linked_list {
 	
 	public static void display(Node temp,String delimiter){
@@ -9,23 +11,20 @@ public class Linked_list {
 		}
 		System.out.println();
 	}
-	
+//	sum of two numbers given as linked lists
 	public static int sum(Node num1,Node num2, Node ans){
 		if(num1==null || num2==null) return 0;
-//		System.out.println(num1.d+"+"+num2.d);
 		if(num1.next==null && num2.next==null){
 			ans.d = (num1.d+num2.d)%10;
-//			System.out.println(num1.d+num2.d);
 			return (num1.d+num2.d)/10;
 		}
 		int temp = num1.d + num2.d + sum(num1.next,num2.next,ans.next);
-//		System.out.println("temp "+temp);
 		ans.d = temp%10;
-//		System.out.println(ans.d);
 		return temp/10;
 	}
 	
 	public static void main(String[] args) {
+//		creating the numbers
 		Node num1 = new Node(3);
 		num1.appendToTail(2);
 		num1.appendToTail(3);
@@ -50,6 +49,7 @@ public class Linked_list {
 		for(int i=0;i<length;i++){
 			ans.appendToTail(0);
 		}
+//		padding numbers with zeros
 		Node zero;
 		Node temp = num1;
 		for(int i=length1;i<length;i++){
@@ -64,13 +64,22 @@ public class Linked_list {
 			zero.next = temp;
 			temp = zero;
 		}
-		num2 = temp;
-		System.out.println("Number 1");
-		display(num1,"");
-		System.out.println("Number 2");
-		display(num2,"");
-		ans.d += sum(num1,num2,ans.next);
-		display(ans,"");
+//		num2 = temp;
+//		System.out.println("Number 1");
+//		display(num1,"");
+//		System.out.println("Number 2");
+//		display(num2,"");
+//		ans.d += sum(num1,num2,ans.next);
+//		display(ans,"");
+			
+		
+		Node pal = new Node(1);
+		pal.appendToTail(2);
+		pal.appendToTail(3);
+//		pal.appendToTail(3);
+		pal.appendToTail(2);
+		pal.appendToTail(1);
+		System.out.println(pal.palindrome_recursion(pal,5).res);
 	}
 
 }
