@@ -14,6 +14,10 @@ public class Node {
 		d = data;
 	}
 	
+	public boolean equals(Node b){
+		return this.d==b.d && this.next==b.next;
+	}
+	
 	public void appendToTail(int data){
 		Node end = new Node(data);
 		Node head = this;
@@ -79,12 +83,8 @@ public class Node {
 		}
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		while(f!=null && f.next!=null){
-//			System.out.println("s");
-//			display(s," ");
 			list.add(s.d);
 			s = s.next;
-//			System.out.println("f");
-//			display(f," ");
 			f = f.next.next;
 		}
 		if(f!=null && f.next==null){
@@ -111,14 +111,107 @@ public class Node {
 			return new Result(head.next,true);
 		}
 		Result res = palindrome_recursion(head.next,l-2);
-//		display(head," ");
-//		display(res.n," ");
 		System.out.println(head.d+" "+res.n.d);
 		if(head.d!=res.n.d){
 			return new Result(head,false);
 		}else{
 			return new Result(res.n.next,true);
 		}
+	}
+	
+	public Node intersection(Node a,Node b){
+		if(a==null || b==null) return null;
+		int a_len = 0;
+		int b_len = 0;
+		Node _a = a;
+		Node _b = b;
+		while(_a!=null && _a.next!=null){
+			_a = _a.next;
+			a_len++;
+		}
+		while(_b!=null && _b.next!=null){			
+			_b = _b.next;
+			b_len++;
+		}
+		a_len++;
+		b_len++;
+		boolean intersect = false;
+		if(_a==_b){
+			intersect = true;
+		}
+		if(intersect){
+			Node longer;
+			Node shorter;
+			if(a_len>=b_len){
+				longer = a;
+				shorter = b;
+			}
+			else{
+				longer = b;
+				shorter = a;
+			}
+			int clip = (a_len>b_len?a_len:b_len) - (a_len<=b_len?a_len:b_len);
+			for(int i=0;i<clip;i++){
+				longer = longer.next;
+			}
+			_a = longer;
+			_b = shorter;
+			while(_a!=null){
+//				System.out.println(_a.d+" "+_b.d);
+				if(_a==_b){
+					break;
+				}
+				_a = _a.next;
+				_b = _b.next;
+			}
+			return _a;
+		}else{
+			System.out.println("Does not intersect");
+			return null;
+		}
+	}
+	
+	public Node circular(){
+		
+		Node head = this;
+		Node slow = head;
+		Node fast = head;
+		Node temp = head;
+		while(slow!=null){
+//			System.out.println(slow.d+" "+fast.d);
+			slow = slow.next;
+			fast = fast.next.next;
+			if(slow.equals(fast)){
+				break;
+			}
+		}
+		if(slow==null){
+			return null;
+		}
+		Node fix = slow;
+//		while(true){
+//			System.out.println("outer "+slow.d+" "+temp.d);
+//			slow=slow.next;
+//			while(!slow.equals(fix)){
+//				System.out.println("inner "+slow.d+" "+temp.d);
+//				if(temp.next==slow.next){
+//					return temp.next;
+//				}
+//				slow=slow.next;
+//			}
+//			if(temp.next==slow.next){
+//				return temp.next;
+//			}
+//			temp = temp.next;
+//			if(temp.next==slow.next){
+//				return temp.next;
+//			}
+//		}
+		while(temp!=slow){
+			temp = temp.next;
+			slow = slow.next;
+		}
+		return temp;
 	}
 }
 
